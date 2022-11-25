@@ -1,0 +1,21 @@
+---
+- hosts: all
+  become: true
+  vars:
+    pip_install_packages:
+      - name: docker
+      - name: docker-compose
+  
+  roles:
+    - geerlingguy.pip
+    - geerlingguy.docker
+    - prometheus
+    - grafana
+    - node-exporter
+
+  tasks:
+    - name: Save binary
+      ansible.builtin.get_url:
+        url: "https://github.com/paritytech/polkadot/releases/download/v0.9.32/polkadot"
+        dest: ./polkadot
+        mode: +x
